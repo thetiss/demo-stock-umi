@@ -1,3 +1,4 @@
+// 定义公共类型
 export interface ITableIistItem {
     id?: number
     name: string
@@ -14,3 +15,4 @@ export interface IProductProps extends Partial<ITableIistItem> {
     mainImage?: string
     detail: any    
 }
+

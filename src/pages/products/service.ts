@@ -20,6 +20,11 @@ interface IQueryProductsParams  {
     pageNum: number
 }
 
+interface ISearchProductsParams {
+    searchValue: any
+    searchType: any
+}
+
 export const queryProducts = async (params: IQueryProductsParams = {pageNum: 1}) => {
     return extendRequest('/api/manage/product/list.do', {
         params
@@ -32,6 +37,16 @@ export const addProduct = async ( params: IProductProps) => {
     })
 }
 
-
+export const searchProduct = async ( data: ISearchProductsParams ) => {
+    const { searchType, searchValue } = data;
+    let searchParams = {
+        listType: 'search',
+        pageNum: 1,
+        [searchType!]: searchValue
+    }
+    return extendRequest('/api/manage/product/search.do',{
+        params: searchParams
+    })
+}
 
 
