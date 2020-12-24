@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { Divider, message, Button, Card, Row, Col, Input, Select } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType, Search } from '@ant-design/pro-table';
@@ -6,15 +6,26 @@ import { PlusOutlined } from '@ant-design/icons'
 
 import CreateForm from './components/CreateForm';
 import DataCardGroup from './components/DataCardItem';
-import { ITableIistItem, IProductProps } from './data';
+import { IProductProps } from './data';
 import * as ProductsService from './service';
 
 // 查询后端接口
 // 返回 Promise
-const protableRequestHandler = async (params: any, sort: any, filter: any) => {
-    const response = await ProductsService.queryProducts({
-        pageNum: params.current
-    });
+const protableRequestHandler = async (params?: any, sort?: any, filter?: any,searchType?: string, searchValue?: string, event?: any) => {
+    console.log("params",params);
+    let fetchParams;
+    if(!params.direction) {
+        fetchParams = {
+            pageNum: params.current
+        }
+    } else {
+        fetchParams = {
+            pageNum: params.current,
+            searchType: params.searchType,
+            searchValue: params.direction,
+        }
+    }
+    const response = await ProductsService.fetchProducts(fetchParams);
     if ( response.status ===0 && response.data.list ) {
         return {
             data: response.data.list,
@@ -30,7 +41,11 @@ const protableRequestHandler = async (params: any, sort: any, filter: any) => {
         }      
     }
 }
-
+const onSearchProductsByNameOrId = async (searchType: string, searchValue: string, event: any) => {
+    const response = await ProductsService.fetchProducts({searchType, searchValue,pageNum: 1});
+    console.log("onSearchProductsByNameOrId here");
+    console.log(response);
+}
 // e.g. {"status":0,"data":"新增产品成功"}
 const handleAdd = async ( newProduct: IProductProps) => {
     const response = await ProductsService.addProduct(newProduct);
@@ -44,14 +59,7 @@ const handleAdd = async ( newProduct: IProductProps) => {
     }
 }
 
-const onSearchProductsByNameOrId = async (searchType: any, searchValue: any, event: any) => {
-    //event.preventdefault();
-    const response = await ProductsService.searchProduct({searchType, searchValue});
-    console.log("onSearchProductsByNameOrId here");
-    console.log(response);
-    console.log(event);
 
-}
 const handleUpdate = async () => {
 
 }
@@ -66,6 +74,8 @@ const namespaceToLocal = '产品';
 const TableList: FC = () => {
     const [ modalVisible, setModalVisible ] = useState<boolean>(false);
     // const [ editRecord, setModalVisible ] = useState<boolean>(false);
+    const [ searchValue, setSearchValue ] = useState<string | number>("");
+    const [ params, setParams ] = useState();
     const actionRef = useRef<ActionType>();
     const { Option } = Select;
     const { Search } = Input;
@@ -192,7 +202,8 @@ const TableList: FC = () => {
               const searchType = form.getFieldValue('searchType');
               console.log("searchType here",searchType);
               return (
-                <Search allowClear onSearch={(value, event) => onSearchProductsByNameOrId(searchType, value, event)}/>
+                // <Search allowClear onSearch={(value, event) => onSearchProductsByNameOrId(searchType, value, event)}/>
+                <Search allowClear onSearch={(value, event) => protableRequestHandler(searchType, value, event)}/>
               );
             },
           },        
@@ -200,6 +211,7 @@ const TableList: FC = () => {
     return(
         <>
             <ProTable<IProductProps>
+                params={params}
                 columns={columns}
                 request={protableRequestHandler}
                 toolBarRender={ () => [

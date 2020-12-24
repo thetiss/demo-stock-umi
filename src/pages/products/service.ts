@@ -16,8 +16,11 @@ const errorHandler = function (error: any) {
 }
 const extendRequest = extend({errorHandler});
 
-interface IQueryProductsParams  {
+interface IfetchProductsParams  {
     pageNum: number
+    searchValue?: any
+    searchType?: any
+    [searchType: string]: any
 }
 
 interface ISearchProductsParams {
@@ -25,10 +28,26 @@ interface ISearchProductsParams {
     searchType: any
 }
 
-export const queryProducts = async (params: IQueryProductsParams = {pageNum: 1}) => {
-    return extendRequest('/api/manage/product/list.do', {
-        params
-    })
+// 根据params判断查询接口
+export const fetchProducts = async (params: IfetchProductsParams = {pageNum: 1}) => {
+    console.log('service here');
+    console.log(' |params',params); 
+    const isSearchParamsType = params.hasOwnProperty('searchValue');
+    if(!isSearchParamsType) {
+        return extendRequest('/api/manage/product/list.do', {
+            params
+        })
+    } else {
+        const { searchType, searchValue } = params;
+        let searchParams = {
+            listType: 'search',
+            pageNum: 1,
+            [searchType!]: searchValue
+        }
+        return extendRequest('/api/manage/product/search.do',{
+            params: searchParams
+        })        
+    }
 }
 
 export const addProduct = async ( params: IProductProps) => {
