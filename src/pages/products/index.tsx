@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import { Divider, message, Button, Card, Row, Col, Input, Select } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType, Search } from '@ant-design/pro-table';
@@ -41,24 +41,19 @@ const protableRequestHandler = async (params?: any, sort?: any, filter?: any,sea
         }      
     }
 }
-const onSearchProductsByNameOrId = async (searchType: string, searchValue: string, event: any) => {
-    const response = await ProductsService.fetchProducts({searchType, searchValue,pageNum: 1});
-    console.log("onSearchProductsByNameOrId here");
-    console.log(response);
-}
-// e.g. {"status":0,"data":"新增产品成功"}
-const handleAdd = async ( newProduct: IProductProps) => {
-    const response = await ProductsService.addProduct(newProduct);
-    console.log("response",response);
-    if( response.status === 0 ) {
-        message.success(response.data);    
-        return true;    
-    } else {
-        message.error("新增产品失败！");
-        return false;
-    }
-}
 
+
+ // onSubmit={ async (value: IProductProps) => {
+                    //     console.log("onSummit here");
+                    //     console.log(value);
+                    //     const response = await handleAdd(value);
+                    //     if(response){
+                    //         setModalVisible(false);
+                    //         if(actionRef.current){
+                    //             actionRef.current.reload();
+                    //         }
+                    //     }
+                    // }}   
 
 const handleUpdate = async () => {
 
@@ -82,7 +77,22 @@ const TableList: FC = () => {
     const onAddProduct = () => {
         setModalVisible(true);
     }
-    
+    // e.g. {"status":0,"data":"新增产品成功"}
+    const handleAdd = async ( newProduct: any) => {
+        const response = await ProductsService.addProduct(newProduct);
+        console.log("response",response);
+        if( response.status === 0 ) {
+            setModalVisible(false);
+            if(actionRef.current){
+                            actionRef.current.reload();
+                        }
+            message.success(response.data);    
+            return true;    
+        } else {
+            message.error("新增产品失败！");
+            return false;
+        }
+    }
     const columns: ProColumns< IProductProps>[] = [
         {
             title: 'id',
@@ -202,7 +212,6 @@ const TableList: FC = () => {
               const searchType = form.getFieldValue('searchType');
               console.log("searchType here",searchType);
               return (
-                // <Search allowClear onSearch={(value, event) => onSearchProductsByNameOrId(searchType, value, event)}/>
                 <Search allowClear onSearch={(value, event) => protableRequestHandler(searchType, value, event)}/>
               );
             },
@@ -226,11 +235,7 @@ const TableList: FC = () => {
                     optionRender: ({ searchText, resetText }, { form }) => [
 
                     ]
-                 }}
-                //search={false}  
-                // options={
-                //     {search: true}
-                // }            
+                 }}         
             />
             <CreateForm 
                 modalVisible={modalVisible}
@@ -238,7 +243,8 @@ const TableList: FC = () => {
             >
                 <ProTable<IProductProps>
                     type="form"
-                    columns={columns}         
+                    columns={columns} 
+                    onSubmit={(value) => handleAdd(value)}        
                     // onSubmit={ async (value: IProductProps) => {
                     //     console.log("onSummit here");
                     //     console.log(value);
