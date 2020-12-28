@@ -68,4 +68,14 @@ export const searchProduct = async ( data: ISearchProductsParams ) => {
     })
 }
 
+//http://localhost:8000/api/manage/product/detail.do?productId=26
+export const getProductById = async ( data: number) => {
+    let params = {
+        productId: data
+    };
+    return extendRequest('/api/manage/product/detail.do',{
+        params
+    })
+}
+
 

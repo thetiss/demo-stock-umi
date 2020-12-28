@@ -1,5 +1,5 @@
 import React, { FC, useState, useRef } from 'react';
-import { Divider, message, Button, Card, Row, Col, Input, Select } from 'antd';
+import { Divider, message, Button, Card, Row, Col, Input, Select, Form } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType, Search } from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons'
@@ -43,21 +43,6 @@ const protableRequestHandler = async (params?: any, sort?: any, filter?: any,sea
 }
 
 
- // onSubmit={ async (value: IProductProps) => {
-                    //     console.log("onSummit here");
-                    //     console.log(value);
-                    //     const response = await handleAdd(value);
-                    //     if(response){
-                    //         setModalVisible(false);
-                    //         if(actionRef.current){
-                    //             actionRef.current.reload();
-                    //         }
-                    //     }
-                    // }}   
-
-const handleUpdate = async () => {
-
-}
 
 const handleRemove = async () => {
 
@@ -68,7 +53,8 @@ const namespaceToLocal = '产品';
 
 const TableList: FC = () => {
     const [ modalVisible, setModalVisible ] = useState<boolean>(false);
-    // const [ editRecord, setModalVisible ] = useState<boolean>(false);
+    const [ editRecord, setEditRecord ] = useState<IProductProps | undefined>();
+    const [ form ] = Form.useForm();
     const [ searchValue, setSearchValue ] = useState<string | number>("");
     const [ params, setParams ] = useState();
     const actionRef = useRef<ActionType>();
@@ -92,6 +78,22 @@ const TableList: FC = () => {
             message.error("新增产品失败！");
             return false;
         }
+    }
+
+    const handleUpdate = async ( currentProduct: IProductProps ) => {
+        console.log("currentProduct is：",currentProduct);
+        let currentProductId:number = 0;
+        currentProduct.id ? currentProductId = currentProduct.id :'';
+        const response = await ProductsService.getProductById(currentProductId);
+        console.log('detail response：');          
+        console.log(response);
+        if( response.status === 0 && response.data) {
+            setEditRecord(response.data);
+            setModalVisible(true);
+            return true;    
+        } else {
+            return false;
+        }            
     }
     const columns: ProColumns< IProductProps>[] = [
         {
@@ -172,11 +174,11 @@ const TableList: FC = () => {
             title: '操作',
             dataIndex: '',
             hideInForm: true,
-            render: () => (
+            render: (text: any, record: IProductProps) => (
                 <>
-                    <a>查看</a>
+                    <a onClick={() => handleUpdate(record)}>查看{record.id}</a>
                     <Divider type="vertical" />
-                    <a>编辑</a>
+                    <a>编辑{record.name}</a>
                 </>                
             )            
         },
@@ -215,11 +217,11 @@ const TableList: FC = () => {
                 <Search allowClear onSearch={(value, event) => protableRequestHandler(searchType, value, event)}/>
               );
             },
-          },        
+        },                    
     ]
     return(
         <>
-            <ProTable<IProductProps>
+            <ProTable
                 params={params}
                 columns={columns}
                 request={protableRequestHandler}
@@ -240,22 +242,14 @@ const TableList: FC = () => {
             <CreateForm 
                 modalVisible={modalVisible}
                 onCancel={() => setModalVisible(false)}
+                editRecord={editRecord}
+                form={form}
             >
-                <ProTable<IProductProps>
+                <ProTable
                     type="form"
+                   //form={form}
                     columns={columns} 
-                    onSubmit={(value) => handleAdd(value)}        
-                    // onSubmit={ async (value: IProductProps) => {
-                    //     console.log("onSummit here");
-                    //     console.log(value);
-                    //     const response = await handleAdd(value);
-                    //     if(response){
-                    //         setModalVisible(false);
-                    //         if(actionRef.current){
-                    //             actionRef.current.reload();
-                    //         }
-                    //     }
-                    // }}       
+                    onSubmit={(value) => handleAdd(value)}  
                 />
             </CreateForm> 
         </>
