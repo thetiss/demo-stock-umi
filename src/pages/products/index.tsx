@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import { Divider, message, Button, Card, Row, Col, Input, Select, Form } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType, Search } from '@ant-design/pro-table';
@@ -54,24 +54,36 @@ const namespaceToLocal = '产品';
 const TableList: FC = () => {
     const [ modalVisible, setModalVisible ] = useState<boolean>(false);
     const [ editRecord, setEditRecord ] = useState<IProductProps | undefined>();
+    const [ initialValues, setInitialValues ] = useState<IProductProps | undefined>();
     const [ form ] = Form.useForm();
     const [ searchValue, setSearchValue ] = useState<string | number>("");
     const [ params, setParams ] = useState();
     const actionRef = useRef<ActionType>();
     const { Option } = Select;
     const { Search } = Input;
+
+    // 
+    useEffect(()=>{
+        console.log("***editRecord changed***");
+        console.log(editRecord);
+        console.log("*** ***");
+
+        setInitialValues(editRecord);
+    },[editRecord])
+
     const onAddProduct = () => {
+        setInitialValues(undefined);
         setModalVisible(true);
+
     }
     // e.g. {"status":0,"data":"新增产品成功"}
     const handleAdd = async ( newProduct: any) => {
         const response = await ProductsService.addProduct(newProduct);
-        console.log("response",response);
         if( response.status === 0 ) {
             setModalVisible(false);
             if(actionRef.current){
-                            actionRef.current.reload();
-                        }
+                actionRef.current.reload();
+            }
             message.success(response.data);    
             return true;    
         } else {
@@ -81,14 +93,13 @@ const TableList: FC = () => {
     }
 
     const handleUpdate = async ( currentProduct: IProductProps ) => {
-        console.log("currentProduct is：",currentProduct);
+        console.log("handleUpdate here");
         let currentProductId:number = 0;
         currentProduct.id ? currentProductId = currentProduct.id :'';
         const response = await ProductsService.getProductById(currentProductId);
-        console.log('detail response：');          
-        console.log(response);
         if( response.status === 0 && response.data) {
             setEditRecord(response.data);
+            //setInitialValues(response.data);
             setModalVisible(true);
             return true;    
         } else {
@@ -207,12 +218,10 @@ const TableList: FC = () => {
             hideInForm: true,
             dataIndex: 'direction',
             renderFormItem: (item, { type, defaultRender, ...rest }, form) => {
-                console.log("renderFormItem here");            
               if (type === 'form') {
                 return null;
               }
               const searchType = form.getFieldValue('searchType');
-              console.log("searchType here",searchType);
               return (
                 <Search allowClear onSearch={(value, event) => protableRequestHandler(searchType, value, event)}/>
               );
@@ -243,11 +252,11 @@ const TableList: FC = () => {
                 modalVisible={modalVisible}
                 onCancel={() => setModalVisible(false)}
                 editRecord={editRecord}
-                form={form}
             >
                 <ProTable
-                    type="form"
-                   //form={form}
+                    type="form" 
+                    //form={{ initialValues:editRecord }}
+                    form={{ initialValues }}
                     columns={columns} 
                     onSubmit={(value) => handleAdd(value)}  
                 />
