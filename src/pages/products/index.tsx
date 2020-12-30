@@ -1,8 +1,8 @@
 import React, { FC, useState, useRef, useEffect } from 'react';
-import { Divider, message, Button, Card, Row, Col, Input, Select, Form } from 'antd';
+import { Divider, message, Button, Card, Row, Col, Input, Select, Form, Popover } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType, Search } from '@ant-design/pro-table';
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, ToTopOutlined , EyeInvisibleOutlined } from '@ant-design/icons'
 
 import CreateForm from './components/CreateForm';
 import DataCardGroup from './components/DataCardItem';
@@ -106,6 +106,22 @@ const TableList: FC = () => {
             return false;
         }            
     }
+
+    const handleSetProductStatus = async ( currentProduct: IProductProps ) => {
+        const { id, status } = currentProduct;
+        const response = await ProductsService.setProductStatus( {id, status});
+        if( response.status === 0 && response.data) {
+            //setEditRecord(response.data);
+            //setInitialValues(response.data);
+            //setModalVisible(true);
+            console.log("修改状态成功")
+            return true;    
+        } else {
+            return false;
+        }      
+
+    }
+
     const columns: ProColumns< IProductProps>[] = [
         {
             title: 'id',
@@ -137,7 +153,46 @@ const TableList: FC = () => {
             dataIndex: 'status',
             key: 'status',
             hideInForm: true,
-            hideInSearch: true
+            hideInSearch: true,
+            render: (text: any, record: IProductProps) => {
+                interface IProductStatus {
+                    statusText: '在售' | '已下架'
+                    btnText: '上架' | '下架'
+                    btnRedColor: true | false
+                    btnIcon: 'stop' | 'arrow'
+                };
+                let currentProductStatus: IProductStatus = { // 默认status=1,意指在售
+                    statusText: '在售',
+                    btnText: '下架',
+                    btnRedColor: true,
+                    btnIcon: 'stop',
+                };
+                const { status } = record;
+                if(status !== 1) {                    
+                    currentProductStatus = {
+                        statusText: '已下架',
+                        btnText: '上架',
+                        btnRedColor: false,
+                        btnIcon: 'arrow',
+                    }; 
+                }
+                return(
+                    <>
+                        <span>{currentProductStatus.statusText}</span>
+                        <Divider type="vertical" />
+                        <Popover content={currentProductStatus.btnText}>
+                            <Button 
+                                onClick={()=>handleSetProductStatus(record)} 
+                                shape="circle"  
+                                danger={currentProductStatus.btnRedColor}
+                            >
+                                    {status !== 1?<ToTopOutlined />:<EyeInvisibleOutlined />}
+                            </Button>
+                        </Popover>
+
+                    </>
+                )
+            }
         },  
         {
             title: '一级分类',

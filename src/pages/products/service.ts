@@ -78,4 +78,14 @@ export const getProductById = async ( data: number) => {
     })
 }
 
+export const setProductStatus = async ( data: any) => {
+    const { id, status } = data;
+    let params = {
+        productId: id,
+        status
+    };
+    return extendRequest('/api/manage/product/set_sale_status.do',{
+        params
+    })
+}
 
