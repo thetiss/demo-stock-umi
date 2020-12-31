@@ -2,7 +2,7 @@ import React, { FC, useState, useRef, useEffect } from 'react';
 import { Divider, message, Button, Card, Row, Col, Input, Select, Form, Popover } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType, Search } from '@ant-design/pro-table';
-import { PlusOutlined, ToTopOutlined , EyeInvisibleOutlined } from '@ant-design/icons'
+import { PlusOutlined, ToTopOutlined , StopOutlined } from '@ant-design/icons'
 
 import CreateForm from './components/CreateForm';
 import DataCardGroup from './components/DataCardItem';
@@ -82,6 +82,7 @@ const TableList: FC = () => {
         if( response.status === 0 ) {
             setModalVisible(false);
             if(actionRef.current){
+                console.log("actionRef here==handleAdd");
                 actionRef.current.reload();
             }
             message.success(response.data);    
@@ -99,6 +100,10 @@ const TableList: FC = () => {
         const response = await ProductsService.getProductById(currentProductId);
         if( response.status === 0 && response.data) {
             setEditRecord(response.data);
+            if(actionRef.current){
+                console.log("actionRef here==handleUpdate");
+                actionRef.current.reload();
+            }
             //setInitialValues(response.data);
             setModalVisible(true);
             return true;    
@@ -109,12 +114,19 @@ const TableList: FC = () => {
 
     const handleSetProductStatus = async ( currentProduct: IProductProps ) => {
         const { id, status } = currentProduct;
+        console.log("待改id 和 状态是： ");
+        console.log(id);
+        console.log(status);        
         const response = await ProductsService.setProductStatus( {id, status});
         if( response.status === 0 && response.data) {
             //setEditRecord(response.data);
             //setInitialValues(response.data);
             //setModalVisible(true);
-            console.log("修改状态成功")
+            message.info(response.data);
+            if(actionRef.current){
+                console.log("actionRef here==handleSetProductStatus");
+                actionRef.current.reload();
+            }
             return true;    
         } else {
             return false;
@@ -186,7 +198,7 @@ const TableList: FC = () => {
                                 shape="circle"  
                                 danger={currentProductStatus.btnRedColor}
                             >
-                                    {status !== 1?<ToTopOutlined />:<EyeInvisibleOutlined />}
+                                    {status !== 1?<ToTopOutlined />:<StopOutlined />}
                             </Button>
                         </Popover>
 
@@ -245,6 +257,13 @@ const TableList: FC = () => {
                     <a onClick={() => handleUpdate(record)}>查看{record.id}</a>
                     <Divider type="vertical" />
                     <a>编辑{record.name}</a>
+                    <Divider type="vertical" />
+                    <a onClick={() => {
+                        if(actionRef.current) {
+                            actionRef.current.reload();
+                            console.log("手动刷新");
+                        }
+                    }}>手动刷新</a>
                 </>                
             )            
         },
