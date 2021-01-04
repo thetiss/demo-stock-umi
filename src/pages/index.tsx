@@ -34,30 +34,48 @@ export default () => {
     }
   }
   return (
-    <>
-      { seriesData && seriesData.forEach((item,index) => (
-          <GaugeChart 
+        <GaugeChart 
             title={{
-              visible: true,
-              text: item.name,
+              visible: false,
+              text: 'item.name',
             }}
             //width={index/seriesData.length*1000}
             width={300}
             height={400}
-            value={item.value}
+            value={1001}
             min={0}
             max={5000}
             range={[0,1000,2000,3000,4000]}
             color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
             statistic={{
               visible: true,
-              text: item.name,
+              text: 'item.name',
               color: '#1E90FF'
             }}
         />
-        )
-     
-      )}
-    </>
+    // <>
+    //   { seriesData && seriesData.forEach((item,index) => (
+    //       <GaugeChart 
+    //         title={{
+    //           visible: true,
+    //           text: item.name,
+    //         }}
+    //         //width={index/seriesData.length*1000}
+    //         width={300}
+    //         height={400}
+    //         value={item.value}
+    //         min={0}
+    //         max={5000}
+    //         range={[0,1000,2000,3000,4000]}
+    //         color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
+    //         statistic={{
+    //           visible: true,
+    //           text: item.name,
+    //           color: '#1E90FF'
+    //         }}
+    //     />
+    //     )     
+    //   )}
+    // </>
   );
 }
