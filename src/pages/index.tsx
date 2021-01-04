@@ -30,52 +30,88 @@ export default () => {
         itemData.value = itemDataArr[item];
         listData[index] = itemData;
       })
-      setSeriesData(listData);    
+      setSeriesData(listData); 
+        
     }
   }
   return (
-        <GaugeChart 
-            title={{
-              visible: false,
-              text: 'item.name',
-            }}
-            //width={index/seriesData.length*1000}
-            width={300}
-            height={400}
-            value={1001}
-            min={0}
-            max={5000}
-            range={[0,1000,2000,3000,4000]}
-            color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
-            statistic={{
-              visible: true,
-              text: 'item.name',
-              color: '#1E90FF'
-            }}
-        />
+        // <GaugeChart 
+        //     title={{
+        //       visible: false,
+        //       text: 'item.name',
+        //     }}
+        //     //width={index/seriesData.length*1000}
+        //     width={300}
+        //     height={400}
+        //     value={1001}
+        //     min={0}
+        //     max={5000}
+        //     range={[0,1000,2000,3000,4000]}
+        //     color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
+        //     statistic={{
+        //       visible: true,
+        //       text: 'item.name',
+        //       color: '#1E90FF'
+        //     }}
+        // />
     // <>
-    //   { seriesData && seriesData.forEach((item,index) => (
-    //       <GaugeChart 
+    //   { seriesData && seriesData.map((item,index) => {
+    //     console.log( Array.isArray(seriesData));
+    //     console.log("return here, i==",index,item.name,item.value);
+    //     (
+    //       <div key={index}>
+    //         <GaugeChart 
     //         title={{
     //           visible: true,
-    //           text: item.name,
+    //           text: 'item.name',
     //         }}
     //         //width={index/seriesData.length*1000}
     //         width={300}
     //         height={400}
-    //         value={item.value}
+    //         value={3000}
     //         min={0}
     //         max={5000}
     //         range={[0,1000,2000,3000,4000]}
     //         color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
     //         statistic={{
     //           visible: true,
-    //           text: item.name,
+    //           text: 'item.name',
     //           color: '#1E90FF'
     //         }}
     //     />
-    //     )     
+    //       </div>
+    //     )     }
     //   )}
     // </>
+    <>
+    { seriesData && seriesData.map((item,index) => (
+      // console.log( Array.isArray(seriesData));
+      // console.log("return here, i==",index,item.name,item.value);
+      (
+        <div key={index}>
+          <GaugeChart 
+          // title={{
+          //   visible: false,
+          //   text: 'item.name',
+          // }}
+          //width={index/seriesData.length*1000}
+          
+          width={300}
+          height={400}
+          value={item.value}
+          min={0}
+          max={5000}
+          range={[0,1000,2000,3000,4000]}
+          color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
+          statistic={{
+            visible: true,
+            text: item.name+''+item.value,
+            color: '#1E90FF'
+          }}
+      />
+        </div>
+      )     )
+    )}
+  </>
   );
 }
