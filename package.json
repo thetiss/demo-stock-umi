@@ -21,16 +21,17 @@
   },
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
-    "@ant-design/pro-table": "^2.9.16",    
+    "@ant-design/pro-table": "^2.9.16",
     "@umijs/preset-react": "1.x",
-    "umi": "^3.3.3",
-    "bizcharts": "^4.0.15"
+    "bizcharts": "^4.0.15",
+    "echarts": "^5.0.0",
+    "umi": "^3.3.3"
   },
   "devDependencies": {
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "@umijs/test": "^3.3.3",
     "@umijs/plugin-esbuild": "^1.0.1",
+    "@umijs/test": "^3.3.3",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
     "react": "^16.12.0",

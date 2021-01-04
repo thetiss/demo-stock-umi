@@ -95,7 +95,23 @@ export default () => {
           //   text: 'item.name',
           // }}
           //width={index/seriesData.length*1000}
-          
+        //   title={ [{
+        //     visible: true,
+        //     text: 'SPEED',
+        //     style: {
+        //         fill: '#fdf914',
+        //         fontSize: 20,
+        //         fontWeight: '100',
+        //     }
+        // }, {
+        //     visible: true,
+        //     text: '60%',
+        //     style: {
+        //         fontSize: '50',
+        //         fill: '#fdf914',
+        //         foontWeight: '600',
+        //     },
+        // }]}
           width={300}
           height={400}
           value={item.value}
@@ -105,7 +121,7 @@ export default () => {
           color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
           statistic={{
             visible: true,
-            text: item.name+''+item.value,
+            text: item.name+'\n'+item.value,
             color: '#1E90FF'
           }}
       />
