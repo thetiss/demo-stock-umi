@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
+// 根据官网issue，解决line报错
+import { LineChart } from 'echarts/charts';
 
 // 引入 ECharts 主模块：
 import echarts from 'echarts/lib/echarts';
