@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// 根据官网issue，解决line报错
 import * as echarts from 'echarts/core';
 import { LineChart, LineSeriesOption } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -19,8 +18,7 @@ const ChildEcharts = () => {
             data: [5, 20, 36, 10, 10, 20]
         }]
     }
-    echarts.use([LineChart, CanvasRenderer]);
-
+    echarts.use([LineChart, CanvasRenderer]);    
     return(
         <div id="main" style={{ width: 400, height: 400 }}></div>
     )
