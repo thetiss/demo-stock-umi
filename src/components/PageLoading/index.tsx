@@ -1,11 +1,9 @@
 import React from "react";
-import { Spin } from "antd";
-
-// loading components from code split
-// https://umijs.org/plugin/umi-plugin-react.html#dynamicimport
+import styles from './index.css';
 const PageLoading: React.FC = () => (
-  <div style={{ paddingTop: 100, textAlign: "center" }}>
-    <Spin size="large" />
-  </div>
+  <div style={{width:'100vw',height:'100vh',backgroundColor:'#2a2a2a'}} className='common_flex'>
+    <div className={styles.loader}>Loading...</div>
+</div>
 );
+
 export default PageLoading;

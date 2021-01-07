@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GaugeChart } from 'bizcharts';
+import Loading from '../components/PageLoading';
 import { fetchTotalNum } from '../services/homePage'
 
 import styles from './index.less';
@@ -35,96 +36,25 @@ export default () => {
     }
   }
   return (
-        // <GaugeChart 
-        //     title={{
-        //       visible: false,
-        //       text: 'item.name',
-        //     }}
-        //     //width={index/seriesData.length*1000}
-        //     width={300}
-        //     height={400}
-        //     value={1001}
-        //     min={0}
-        //     max={5000}
-        //     range={[0,1000,2000,3000,4000]}
-        //     color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
-        //     statistic={{
-        //       visible: true,
-        //       text: 'item.name',
-        //       color: '#1E90FF'
-        //     }}
-        // />
-    // <>
-    //   { seriesData && seriesData.map((item,index) => {
-    //     console.log( Array.isArray(seriesData));
-    //     console.log("return here, i==",index,item.name,item.value);
-    //     (
-    //       <div key={index}>
-    //         <GaugeChart 
-    //         title={{
-    //           visible: true,
-    //           text: 'item.name',
-    //         }}
-    //         //width={index/seriesData.length*1000}
-    //         width={300}
-    //         height={400}
-    //         value={3000}
-    //         min={0}
-    //         max={5000}
-    //         range={[0,1000,2000,3000,4000]}
-    //         color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
-    //         statistic={{
-    //           visible: true,
-    //           text: 'item.name',
-    //           color: '#1E90FF'
-    //         }}
-    //     />
-    //       </div>
-    //     )     }
-    //   )}
-    // </>
     <>
-    { seriesData && seriesData.map((item,index) => (
-      // console.log( Array.isArray(seriesData));
-      // console.log("return here, i==",index,item.name,item.value);
+    { seriesData && seriesData.map((item,index) => (     
       (
         <div key={index}>
-          <GaugeChart 
-          // title={{
-          //   visible: false,
-          //   text: 'item.name',
-          // }}
-          //width={index/seriesData.length*1000}
-        //   title={ [{
-        //     visible: true,
-        //     text: 'SPEED',
-        //     style: {
-        //         fill: '#fdf914',
-        //         fontSize: 20,
-        //         fontWeight: '100',
-        //     }
-        // }, {
-        //     visible: true,
-        //     text: '60%',
-        //     style: {
-        //         fontSize: '50',
-        //         fill: '#fdf914',
-        //         foontWeight: '600',
-        //     },
-        // }]}
-          width={300}
-          height={400}
-          value={item.value}
-          min={0}
-          max={5000}
-          range={[0,1000,2000,3000,4000]}
-          color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
-          statistic={{
-            visible: true,
-            text: item.name+'\n'+item.value,
-            color: '#1E90FF'
-          }}
-      />
+          <Loading />
+          {/* <GaugeChart 
+            width={300}
+            height={400}
+            value={item.value}
+            min={0}
+            max={5000}
+            range={[0,1000,2000,3000,4000]}
+            color={['#39B8FF', '#52619B', '#43E089', '#C0EDF3']}
+            statistic={{
+              visible: true,
+              text: item.name+'\n'+item.value,
+              color: '#1E90FF'
+            }}
+          /> */}
         </div>
       )     )
     )}
