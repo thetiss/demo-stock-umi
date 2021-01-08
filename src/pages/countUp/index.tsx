@@ -1,5 +1,6 @@
 import  React, { useState, useEffect } from 'react';
 import CountUp, { useCountUp } from 'react-countup';
+import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import { Button, Divider, message } from 'antd';
 import './index.css';
 
@@ -67,7 +68,13 @@ const CountUpTip = () => {
                     <Button onClick={() => update(50) }>update to 50</Button>
                 </div>
                 <div className="site-button-ghost-item">
-                    {renderCountUpByHook}
+                    {/* {renderCountUpByHook} */}
+                    {/* <LiveProvider code="<strong>Hello World!</strong>"> */}
+                    <LiveProvider code={renderCountUpByHook}>
+                        <LiveEditor />
+                        {/* <LiveError />
+                        <LivePreview /> */}
+                    </LiveProvider>
                 </div>
             </div>    
         </div>

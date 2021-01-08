@@ -8,11 +8,12 @@
 
   .title-container  h1 {
     text-align: center;
+    color: aliceblue;
   }
 
   .site-button-ghost-wrapper {
     background: rgb(190, 200, 200);
-    height: 500px;
+    height: 750px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -25,6 +26,6 @@
     flex: 1;
   }
   .site-button-ghost-item:nth-of-type(2) {
-    background: rgb(218, 169, 192);
+    background: black;
     flex: 2 200px;
   }
