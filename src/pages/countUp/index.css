@@ -1,8 +1,30 @@
-.site-button-ghost-wrapper {
-    background: rgb(190, 200, 200);
+.title-container {
+    background: rgb(71, 209, 94);
     padding: 26px 16px 16px;
-    width: 40%;
     align-items: center;
-    display: flex;
+    /* display: flex; 默认布局效果是一个挨着一个堆叠 */
     flex-direction: column;
+  }
+
+  .title-container  h1 {
+    text-align: center;
+  }
+
+  .site-button-ghost-wrapper {
+    background: rgb(190, 200, 200);
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .site-button-ghost-item {
+    background: rgb(211, 115, 160);
+    /* padding: 26px 16px 16px; */
+    align-items: center;
+    flex: 1;
+  }
+  .site-button-ghost-item:nth-of-type(2) {
+    background: rgb(218, 169, 192);
+    flex: 2 200px;
   }
