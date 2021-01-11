@@ -15,15 +15,19 @@
     background: rgb(190, 200, 200);
     height: 750px;
     display: flex;
+    align-items: center;
+    /* justify-content: space-around; */
     flex-direction: row;
-    justify-content: space-around;
   }
 
   .site-button-ghost-item {
     background: rgb(211, 115, 160);
     /* padding: 26px 16px 16px; */
-    align-items: center;
     flex: 1;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-around;
   }
   .site-button-ghost-item:nth-of-type(2) {
     background: black;

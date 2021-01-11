@@ -24,6 +24,7 @@
     "@ant-design/pro-table": "^2.9.16",
     "@umijs/preset-react": "1.x",
     "bizcharts": "^4.0.15",
+    "core-js": "3",
     "echarts": "^4.9.0",
     "echarts-for-react": "^2.0.16",
     "react-countup": "^4.3.3",
