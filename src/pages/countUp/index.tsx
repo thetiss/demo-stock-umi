@@ -60,7 +60,7 @@ const CountUpTip = () => {
         <div>
             <div className='title-container'><h1>React-countUp demo</h1></div>
             <div className="site-button-ghost-wrapper">
-                <div className="site-button-ghost-item">
+                <div className="site-button-ghost-item" style={{height: 750}}>
                     <div>{ countUp }</div>
                     <Button onClick={ start }>Start</Button>
                     <Button onClick={ pauseResume }>pauseResume</Button>
