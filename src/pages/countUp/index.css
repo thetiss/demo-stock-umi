@@ -23,6 +23,9 @@
     background: rgb(211, 115, 160);
     flex: 1 200px;
     display: flex;
+    /* flex-direction: column;
+    flex-wrap: wrap; */
+    /* 前面被注释的2行可简写为下行 */
     flex-flow: column wrap;
     align-items: center;
     justify-content: space-evenly;
