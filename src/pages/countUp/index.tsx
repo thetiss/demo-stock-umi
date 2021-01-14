@@ -61,11 +61,13 @@ const CountUpTip = () => {
             <div className='title-container'><h1>React-countUp demo</h1></div>
             <div className="site-button-ghost-wrapper">
                 <div className="site-button-ghost-item" style={{height: 750}}>
-                    <div>{ countUp }</div>
-                    <Button onClick={ start }>Start</Button>
-                    <Button onClick={ pauseResume }>pauseResume</Button>
-                    <Button onClick={ reset }>reset</Button>
-                    <Button onClick={() => update(50) }>update to 50</Button>
+                    <span>{ countUp }</span>
+                    <div>
+                        <Button onClick={ start }>Start</Button>
+                        <Button onClick={ pauseResume }>pauseResume</Button>
+                        <Button onClick={ reset }>reset</Button>
+                        <Button onClick={() => update(50) }>update to 50</Button>
+                    </div>
                 </div>
                 <div className="site-button-ghost-item">
                     {/* {renderCountUpByHook} */}
