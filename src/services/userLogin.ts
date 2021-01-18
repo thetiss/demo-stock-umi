@@ -18,6 +18,7 @@ const extendRequest = extend({errorHandler});
 
 export const userLogin = async ( params: IUserLoginForm ) => {
     return extendRequest('/api/manage/user/login.do',{
-        params
+        method: "POST",
+        data: params
     })
 }

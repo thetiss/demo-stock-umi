@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { message } from 'antd';
 import ProForm, { ProFormText, ProFormCaptcha, ProFormSwitch } from '@ant-design/pro-form';
 import { UserOutlined, LockOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { userLogin } from '../../../services/userLogin';
@@ -21,29 +22,35 @@ const Login = () => {
         <>
         <div className={styles.container}>        
             <ProForm
-              onReset={()=>{alert('reset btn')}}
+              onFinish={async (values) => handleUserLogin(values)
+              //   {
+              //   console.log("--proform的值--");
+              //   console.log(values);
+              //   console.log("--proform的值--");
+              //   message.success('提交成功');
+              // }
+            }
               submitter={{
-                searchConfig: {
-                  submitText: '登录',
-                  resetText: '重置',
-                },
+                // searchConfig: {
+                //   submitText: '登录',
+                //   resetText: '重置',
+                // },
                 // 完全自定义整个区域
                 render: (props, doms) => {
-                  console.log(props);
-                  console.log(props.form?.getFieldValue());
+                  console.log(props);                  
                   return [
                     <button type="button" key="rest" onClick={() => props.form?.resetFields()}>
                       重置
                     </button>,
                     <button type="button" key="submit" onClick={() => props.form?.submit?.()}>
-                      提交
+                      登录
                     </button>,
                   ];
                 },
                 submitButtonProps: {
                   size: 'large',
                   style: {
-                    width: '25%',
+                    width: '35%',
                   },
                 },
                
@@ -85,10 +92,10 @@ const Login = () => {
                         required: true,
                         message: '请输入密码!',
                         },
-                        {
-                        pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/,
-                        message: '最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符!',
-                        },
+                        // {
+                        // pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/,
+                        // message: '最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符!',
+                        // },
                     ]}
                   />
                 <ProFormSwitch  
