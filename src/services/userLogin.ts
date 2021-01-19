@@ -6,7 +6,8 @@ const errorHandler = function (error: any) {
     if(error.response){
         console.log(error.response);
         if(error.response.status > 400){
-            console.log(error.data)
+            // console.log(error.data);
+            // console.log(error.data.status);
             message.error(error.data.message?error.data.message:error.data)
         }else{
             message.error('Network Error')
@@ -17,6 +18,8 @@ const errorHandler = function (error: any) {
 const extendRequest = extend({errorHandler});
 
 export const userLogin = async ( params: IUserLoginForm ) => {
+    // console.log('params',params);
+    
     return extendRequest('/api/manage/user/login.do',{
         method: "POST",
         data: params
