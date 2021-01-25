@@ -20,7 +20,7 @@ const extendRequest = extend({errorHandler});
 export const userLogin = async ( params: IUserLoginForm ) => {
     // console.log('params',params);
     
-    return extendRequest('/api/manage/user/login.do',{
+    return extendRequest('/api/manage/user/login.do',{ // 不清楚为啥不能登录，怪事情
         method: "POST",
         data: params
     })
