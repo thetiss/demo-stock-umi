@@ -18,8 +18,13 @@ const errorHandler = function (error: any) {
 const extendRequest = extend({errorHandler});
 
 export const userLogin = async ( params: IUserLoginForm ) => {
-    // console.log('params',params);
-    
+    params = {
+        isAdmin: params.isAdmin,
+        username: params.username,
+        password: params.password
+    };
+    console.log('params',params);
+
     return extendRequest('/api/manage/user/login.do',{ // 不清楚为啥不能登录，怪事情
         method: "POST",
         data: params

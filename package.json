@@ -29,6 +29,7 @@
     "echarts-for-react": "^2.0.16",
     "react-countup": "^4.3.3",
     "react-live": "^2.2.3",
+    "redis": "^3.0.2",
     "umi": "^3.3.3"
   },
   "devDependencies": {
