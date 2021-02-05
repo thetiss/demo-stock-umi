@@ -27,6 +27,7 @@
     "core-js": "3",
     "echarts": "^4.9.0",
     "echarts-for-react": "^2.0.16",
+    "mqtt": "^4.2.6",
     "react-countup": "^4.3.3",
     "react-live": "^2.2.3",
     "redis": "^3.0.2",
